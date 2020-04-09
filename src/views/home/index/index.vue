@@ -11,7 +11,7 @@
             <span class="el-dropdown-link">
               {{ curClickedName }}<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
-          <el-dropdown-menu slot="dropdown">
+          <el-dropdown-menu slot="dropdown" style="cursor: pointer;">
             <el-dropdown-item v-for="item in tags" :key="item.id" :command="item">{{ item.name }}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>

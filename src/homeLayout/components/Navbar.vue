@@ -2,7 +2,7 @@
   <el-row class="navbar">
     <el-col :span="5">
       <div class="site-name">
-        {{ site_name }}
+        <a href="/">{{ site_name }}</a>
       </div>
     </el-col>
     <el-col :span="19">
@@ -49,6 +49,9 @@ export default {
 
 <style lang="scss" scoped>
   @import "~@/styles/variables.scss";
+  a {
+    color:black;
+  }
   .navbar {
     height: 120px;
     line-height: 120px;
