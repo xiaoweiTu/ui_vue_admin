@@ -1,50 +1,38 @@
 <template>
   <el-row class="index-container">
-    <el-col :span="24">
-      <div class="poster">
-        <div class="icon-name">
-          <img src="http://qiniu.txwei.cn/Fut1P7edmWvCqvm5mztihRpOzQzO" alt="" class="icon">
-          <span class="name">{{ site_name }}</span>
-        </div>
-        <div class="desc">{{ site_desc }}</div>
-        <div class="tags">
-          <el-badge :value="total" class="tag-item" :class="curClicked === 0 ? 'active' : ''">
-            <div @click="getTagArticles(0)">All</div>
-          </el-badge>
-          <el-badge
-            v-for="(item) in tags"
-            :key="item.id"
-            :class="curClicked === item.id ? 'active' : ''"
-            class="tag-item"
-            :value="item.articles.length"
-          ><div @click="getTagArticles(item.id)">{{ item.name }} </div></el-badge>
-          <i v-if="tags.length > 4" class="el-icon-caret-bottom more-tags" @click="moreTags" />
+    <el-col :span="20" :offset="2">
+      <p class="title">设计 ● 概况</p>
+      <div class="tag-wrap clearfix">
+         <div class="total fl">
+            <span style="color:red;">{{ total }}</span>个精选作品
+         </div>
+        <div class="tag fr">
+          类别：<el-dropdown @command="handleCommand">
+            <span class="el-dropdown-link">
+              {{ curClickedName }}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-for="item in tags" :key="item.id" :command="item">{{ item.name }}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         </div>
       </div>
-      <div class="content">
-        <div v-for="(item, index) in articles" :key="index" class="item" @click="goRead(item.id)">
-          <img :src="item.icon" alt="" class="item-icon">
-          <div class="item-content">
-            <p class="title">
-              <i class="el-icon-star-on" />
-              {{ item.title }}
-            </p>
-            <p class="desc">
-              {{ item.description }}
-            </p>
-            <p class="info">
-              <span><i class="el-icon-time" /><span class="time">{{ item.minus_time }}</span></span>
-              <span class="read">
-                <i class="el-icon-view" />
-                <span class="readings">{{ item.clicked }}</span>
-              </span>
-            </p>
-          </div>
-        </div>
-        <div v-if="page < totalPage" class="load-more">
-          <el-button v-loading="loading" @click="loadMore">加载更多...</el-button>
-        </div>
-      </div>
+      <el-row class="content-wrap">
+          <el-col v-for="item in articles" :key="item.id" :span="8" class="item-box">
+            <div class="item-wrap" @click="goRead(item.id)">
+              <img :src="item.icon" alt="" class="main-pic">
+              <div class="info-wrap clearfix">
+                <div class="fl display-inline font-600">
+                  {{ item.title }}
+                </div>
+                <div class="tag fr display-inline color-gray">
+                  {{ item.tag.name }}
+                </div>
+              </div>
+            </div>
+          </el-col>
+      </el-row>
+      <div v-if="page < totalPage" class="load-more"><span v-loading="loading" @click="loadMore" >加载更多....</span></div>
     </el-col>
   </el-row>
 </template>
@@ -53,14 +41,13 @@
 import { mapGetters } from 'vuex'
 import { getHomeTagList } from '../../../api/tag'
 import { getHomeArticleList } from '../../../api/article'
-
 export default {
   name: 'Index',
   data() {
     return {
       showMore: false,
       tags: [],
-      curClicked: 0,
+      curClickedName: '全部',
       tagId: 0,
       articles: [],
       page: 1,
@@ -80,33 +67,11 @@ export default {
     this.tagArticles()
   },
   methods: {
-    moreTags() {
-      this.showMore = !this.showMore
-      if (this.showMore) {
-        const tag = document.querySelector('.tags')
-        tag.style.height = 'auto'
-        const height = tag.clientHeight + 6
-        document.querySelector('.content').style.marginTop = height + 'px'
-        document.querySelector('.more-tags').classList.remove('el-icon-caret-bottom')
-        document.querySelector('.more-tags').classList.add('el-icon-caret-left')
-      } else {
-        document.querySelector('.tags').style.height = 50 + 'px'
-        document.querySelector('.content').style.marginTop = 50 + 'px'
-        document.querySelector('.more-tags').classList.remove('el-icon-caret-left')
-        document.querySelector('.more-tags').classList.add('el-icon-caret-bottom')
-      }
-    },
     async tagList() {
       const res = await getHomeTagList()
       if (res.code === 1) {
         this.tags = res.data
       }
-    },
-    getTagArticles(id) {
-      this.curClicked = id
-      this.tagId = id
-      this.page = 1
-      this.tagArticles()
     },
     async tagArticles(save = false) {
       this.loading = true
@@ -125,159 +90,105 @@ export default {
       }
     },
     loadMore() {
-      this.page += 1
-      this.tagArticles(true)
+      if (this.page < this.totalPage) {
+        this.page += 1
+        this.tagArticles(true)
+      } else {
+        this.$message({
+          message: '已经到底啦...',
+          type: 'warning'
+        })
+      }
     },
     goRead(id) {
       const url = this.$router.resolve({ name: 'homeArticle', params: { article_id: id }})
       window.open(url.href, '_blank')
+    },
+    handleCommand(item) {
+      this.curClickedName = item.name
+      this.tagId = item.id
+      this.page = 1
+      this.tagArticles()
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.poster {
-  background-color: #000;
-  height: 350px;
-  border-radius: 5px;
-  position: relative;
-  .icon-name {
-    position: absolute;
-    top:100px;
-    left:50%;
-    width: 400px;
-    margin-left: -200px;
-    color: #fff;
-    .icon {
-      width: 100px;
-      height: 100px;
-      -webkit-border-radius: 50%;
-      -moz-border-radius: 50%;
-      border-radius: 50%;
-      display: inline-block;
-      vertical-align: top;
-    }
-    .name {
-      font-size: 60px;
-      display: inline-block;
-      height: 100px;
-      line-height: 100px;
-      margin-left: 35px;
-    }
-  }
-  .desc {
-    position: absolute;
-    bottom: 80px;
-    color: #fff;
-    display: block;
-    text-align: center;
-    width: 100%;
-    font-size: 26px;
-  }
-  .tags {
-    width: 400px;
-    overflow: hidden;
-    height: 50px;
-    background-color: #fff;
-    position: absolute;
-    padding: 0 15px;
-    top: 325px;
-    left: 50%;
-    margin-left: -200px;
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
-    border-radius: 25px;
-    .tag-item {
-      display: inline-block;
-      width: 18%;
-      height: 50px;
-      line-height: 50px;
-      text-align: center;
-      cursor: pointer;
-      font-size: 15px;
-      &:hover {
-        color:red;
-      }
-      /deep/ .el-badge__content.is-fixed {
-        top: 10px;
-        right: 20px;
-      }
-    }
-    .tag-item.active {
-      color: red;
-    }
-    .more-tags {
-      display: inline-block;
-      position: absolute;
-      right: 10px;
-      top: 15px;
-      font-size: 20px;
-      cursor: pointer;
-    }
-  }
+@import "~@/styles/variables.scss";
+.display-inline {
+  display: inline-block;
 }
-.content {
-  padding-top: 15px;
-  padding-bottom: 50px;
-  background-color: #fff;
-  margin-top: 50px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+.color-gray {
+  color: $grayColor;
+}
+.font-600 {
+  font-weight:600;
+}
+.index-container {
+  padding: 50px 0;
+  .tag-wrap {
+    padding:0 15px;
+  }
+  .title {
+    color: $grayColor;
+    text-align: center;
+  }
+  .total,.tag {
+    display: inline-block;
+  }
+  .content-wrap {
+    padding: 30px 0;
+    .item-wrap {
+      width: 100%;
+      overflow: hidden;
+      height: 400px;
+      cursor: pointer;
+      .main-pic {
+        width: 100%;
+        height: 360px;
+      }
+      .info-wrap {
+        padding-top:15px;
+      }
+    }
+  }
+  .item-box {
+    padding: 0 15px;
+    margin-top: 40px;
+  }
   .load-more {
     text-align: center;
-  }
-  .item {
-    margin-bottom: 15px;
-  }
-  .item-icon {
-    display: inline-block;
-    width: 120px;
-    height: 120px;
-    padding: 15px;
-    vertical-align: top;
-  }
-  .item-content {
-    display: inline-block;
-    margin-left: 10px;
-    width: calc(100% - 200px);
-    padding-top: 5px;
-    border-bottom: 1px solid #f2f2f2;
     cursor: pointer;
-    .title {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: 16px;
-      font-weight: 700;
-      font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    &:hover {
+      color:red;
     }
-    .desc {
-      font-size: 14px;
-      color: #a2a2a2;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .info {
-      padding-top: 10px;
-      font-size: 12px;
-      .time {
-        padding: 0 5px;
-      }
-      .readings {
-        padding: 0 5px;
-      }
-      .read {
-        margin-left: 10px;
-      }
-    }
-  }
-  .item-content:hover {
-    background-color: #f2f2f2;
-    border-radius: 4px;
   }
 }
 
+@media only screen and (min-width: 850px) and (max-width: 1000px){
+  .index-container {
+    .content-wrap {
+      .item-wrap {
+        height: 250px;
+        .main-pic {
+          height: 180px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1010px) and (max-width: 1400px){
+  .index-container {
+    .content-wrap {
+      .item-wrap {
+        height: 300px;
+        .main-pic {
+          height: 250px;
+        }
+      }
+    }
+  }
+}
 </style>

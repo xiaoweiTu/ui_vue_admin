@@ -49,7 +49,7 @@
           </el-table-column>
           <el-table-column
             prop="order"
-            label="标签等级"
+            label="排序等级"
             align="center"
           />
           <el-table-column

@@ -6,7 +6,10 @@ const state = {
   site_keyword: '',
   site_author: '',
   site_record: '',
-  site_icon_url: ''
+  site_icon_url: '',
+  site_word: '',
+  site_email: '',
+  site_url: ''
 }
 
 const mutations = {
@@ -27,6 +30,15 @@ const mutations = {
   },
   set_site_icon_url(state, site_icon_url) {
     state.site_icon_url = site_icon_url
+  },
+  set_site_word(state, site_word) {
+    state.site_word = site_word
+  },
+  set_site_email(state, site_email) {
+    state.site_email = site_email
+  },
+  set_site_url(state, site_url) {
+    state.site_url = site_url
   }
 }
 
@@ -41,6 +53,9 @@ const actions = {
           commit('set_site_record', data.web_record)
           commit('set_site_icon_url', data.web_icon)
           commit('set_site_keyword', data.web_keyword)
+          commit('set_site_word', data.web_word)
+          commit('set_site_email', data.web_email)
+          commit('set_site_url', data.web_url)
         }
         resolve()
       }).catch(error => {

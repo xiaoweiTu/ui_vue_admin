@@ -30,9 +30,6 @@ export default {
 
 <style lang="scss" scoped>
 .app-wrapper{
-  background-color: #f0f2f5;
-  .back-top{
-    position: fixed;
-  }
+  background-color: #fff;
 }
 </style>
