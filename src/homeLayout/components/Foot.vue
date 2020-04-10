@@ -2,21 +2,20 @@
   <el-row class="foot-container">
     <el-col :span="20" :offset="2" class="foot-box">
       <el-row>
-        <el-col :span="6" class="left-box">
+        <el-col :xl="6" :lg="8" :md="8" :xs="12" :sm="12" class="left-box">
           <div class="name">{{ site_author }}</div>
           <p class="desc">{{ site_word }}</p>
           <div class="record">@2020 {{ site_record }} design by {{ site_author }}</div>
         </el-col>
-        <el-col :span="6" class="center-box">
+        <el-col  :xl="6" :lg="8" class="center-box hidden-md-and-down" >
           <div class="name">个人网站地址</div>
           <div class="url">{{ site_url }} <i class="el-icon-right" /></div>
         </el-col>
-        <el-col :span="6" class="center-right-box">
+        <el-col :xl="6" :lg="8" :md="8" :xs="12" :sm="12" class="center-right-box">
           <div class="name">邮箱</div>
           <p class="email">{{ site_email }}</p>
         </el-col>
-        <el-col :span="6">
-          <img src="" alt="" class="weixin">
+        <el-col :xl="6" class="hidden-md-and-down">
         </el-col>
       </el-row>
     </el-col>

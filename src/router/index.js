@@ -64,17 +64,10 @@ export const constantRoutes = [
         hidden: true
       },
       {
-        path: '/timeline',
-        name: 'timeline',
-        component: () => import('@/views/home/timeline/index'),
-        meta: { title: '时光机', icon: 'book' },
-        hidden: true
-      },
-      {
-        path: '/course/:tag_id',
-        name: 'course',
-        component: () => import('@/views/home/course/index'),
-        meta: { title: '教程', icon: 'book' },
+        path: '/self-intro',
+        name: 'self-intro',
+        component: () => import('@/views/home/self-intro/index'),
+        meta: { title: '个人简历', icon: 'book' },
         hidden: true
       }
     ]
@@ -121,6 +114,20 @@ export const constantRoutes = [
         hidden: true,
         component: () => import('@/views/admin/article/editArticle'),
         meta: { title: '文章编辑', icon: 'form' }
+      }
+    ]
+  },
+  //
+  {
+    path: '/admin/self-intro',
+    component: Layout,
+    redirect: '/admin/self-intro/list',
+    children: [
+      {
+        path: '/admin/self-intro/list',
+        name: 'admin-self-intro',
+        component: () => import('@/views/admin/self-intro/index'),
+        meta: { title: '个人..', icon: 'people' }
       }
     ]
   },

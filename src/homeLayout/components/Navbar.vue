@@ -6,10 +6,10 @@
       </div>
     </el-col>
     <el-col :span="19">
-      <span class="nav-item active">
+      <a href="/" class="nav-item " :class="cur === 0 ? 'active' : ''">
         设计作品
-      </span>
-      <span class="nav-item">
+      </a>
+      <span :class="cur === 1 ? 'active' : ''" class="nav-item" @click="goSelfIntro" >
         个人简历
       </span>
     </el-col>
@@ -23,7 +23,7 @@ export default {
   name: 'NavBar',
   data() {
     return {
-      series: []
+      cur: 0
     }
   },
   computed: {
@@ -43,12 +43,18 @@ export default {
     document.getElementById('site-keywords').content = this.site_keyword
   },
   methods: {
+    goSelfIntro() {
+      this.cur = 1
+      this.$router.push({
+        name: 'self-intro'
+      })
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/variables.scss";
+ @import "~@/styles/variables.scss";
   a {
     color:black;
   }
@@ -73,10 +79,17 @@ export default {
       color:red;
     }
   }
-@media only screen and (min-width: 850px) and (max-width: 1000px){
-  .site-name {
-    font-size: 1.5em;
+ @media only screen and (min-width: 768px) and (max-width: 992px){
+    .site-name {
+      font-size: 1.5em;
+      padding-left: 40px;
+    }
   }
-}
 
+  @media only screen and (min-width: 992px) and (max-width: 1200px){
+    .site-name {
+      font-size: 1.8em;
+      padding-left: 60px;
+    }
+  }
 </style>

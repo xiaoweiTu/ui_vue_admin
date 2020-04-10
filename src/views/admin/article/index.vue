@@ -20,7 +20,7 @@
             <el-input v-model="searchParams.title" type="text" placeholder="文章标题" />
           </el-form-item>
           <el-form-item>
-            <el-select v-model="searchParams.tag_id" multiple  clearable placeholder="标签">
+            <el-select v-model="searchParams.tag_id" multiple clearable placeholder="标签">
               <el-option v-for="(item) in tagList" :key="item.id" :label="item.name" :value="Number(item.id)">
                 <span style="float: left">{{ item.name }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.type_name }} ({{ item.status_name }})</span>
@@ -63,6 +63,11 @@
           <el-table-column
             prop="title"
             label="标题"
+            align="center"
+          />
+          <el-table-column
+            prop="clicked"
+            label="点击量"
             align="center"
           />
           <el-table-column

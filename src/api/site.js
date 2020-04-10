@@ -31,11 +31,26 @@ export function getArticlesInSeven(params) {
     params
   })
 }
-
 export function getClickedInSeven(params) {
   return request({
     url: '/web/clickedInSeven',
     method: 'get',
     params
+  })
+}
+
+export function getSelfIntro(params) {
+  return request({
+    url: '/self_intro/index',
+    method: 'get',
+    params
+  })
+}
+
+export function editIntroPassword(data) {
+  return request({
+    url: '/self_intro/editPassword',
+    method: 'post',
+    data
   })
 }

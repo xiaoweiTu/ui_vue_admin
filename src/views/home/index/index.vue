@@ -166,7 +166,7 @@ export default {
   }
 }
 
-@media only screen and (min-width: 850px) and (max-width: 1000px){
+@media only screen and (min-width: 768px) and (max-width: 992px){
   .index-container {
     .content-wrap {
       .item-wrap {
@@ -179,13 +179,26 @@ export default {
   }
 }
 
-@media only screen and (min-width: 1010px) and (max-width: 1400px){
+@media only screen and (min-width: 992px) and (max-width: 1200px){
   .index-container {
     .content-wrap {
       .item-wrap {
         height: 300px;
         .main-pic {
           height: 250px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1600px){
+  .index-container {
+    .content-wrap {
+      .item-wrap {
+        height: 350px;
+        .main-pic {
+          height: 300px;
         }
       }
     }
