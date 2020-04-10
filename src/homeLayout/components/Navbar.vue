@@ -9,7 +9,7 @@
       <a href="/" class="nav-item " :class="cur === 0 ? 'active' : ''">
         设计作品
       </a>
-      <span :class="cur === 1 ? 'active' : ''" class="nav-item" @click="goSelfIntro" >
+      <span :class="cur === 1 ? 'active' : ''" class="nav-item" @click="goSelfIntro">
         个人简历
       </span>
     </el-col>
@@ -34,6 +34,11 @@ export default {
       'site_keyword',
       'site_icon_url'
     ])
+  },
+  created() {
+    if (this.$route.name === 'self-intro') {
+      this.cur = 1
+    }
   },
   updated() {
     document.title = this.site_name

@@ -47,6 +47,14 @@ export function getSelfIntro(params) {
   })
 }
 
+export function getHomeIntro(params) {
+  return request({
+    url: '/self_intro/homeLook',
+    method: 'get',
+    params
+  })
+}
+
 export function editIntroPassword(data) {
   return request({
     url: '/self_intro/editPassword',

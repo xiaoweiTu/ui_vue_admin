@@ -127,7 +127,7 @@ export const constantRoutes = [
         path: '/admin/self-intro/list',
         name: 'admin-self-intro',
         component: () => import('@/views/admin/self-intro/index'),
-        meta: { title: '个人..', icon: 'people' }
+        meta: { title: '个人简历', icon: 'people' }
       }
     ]
   },
