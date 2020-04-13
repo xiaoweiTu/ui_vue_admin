@@ -127,6 +127,7 @@ export default {
 }
 .index-container {
   padding: 50px 0;
+  min-height: 650px;
   .tag-wrap {
     padding:0 15px;
   }
